@@ -17,21 +17,26 @@ Minecraft Server Scanner — это хорошее и удобное прило�
 ## 🚀 Как использовать
 1. Открой приложение
    
-![image](https://github.com/user-attachments/assets/595fe42a-e5c5-4a12-aa33-720544dcd00c)
+![image](https://github.com/user-attachments/assets/21c499d0-ba43-45a0-8469-4bd07862bd90)
+
 
 2. Введите IP-диапазоны или используйте сохранённый профиль (по умолчанию это сервера trial.stickypiston.co)
    
-   ![image](https://github.com/user-attachments/assets/ea24ba1f-c04b-49a1-999d-ba0aea022ecb)
+![image](https://github.com/user-attachments/assets/17a953fe-3366-413c-be09-2ac740b1c2e5)
+
 
 3. Нажмите "Сканировать"
    
-   ![image](https://github.com/user-attachments/assets/ca17cc46-c03c-41c4-830b-a4d12de504ee)
+![image](https://github.com/user-attachments/assets/45f0d042-c585-4856-9688-2f4b60f2fe81)
+
 
 4. Дождитесь сканирования
    
-   ![image](https://github.com/user-attachments/assets/a8790b7e-60ef-4795-87b9-740afc5de6c8)
+![image](https://github.com/user-attachments/assets/7a892096-7d1a-43f6-bad9-4a01272e7037)
+
    
 5. Получите список доступных серверов и подробности о каждом
    
-   ![image](https://github.com/user-attachments/assets/26dbcee5-79a8-4669-b352-9968814f9eb2)
+![image](https://github.com/user-attachments/assets/687755ec-36c6-4bc7-b0bb-30f22c01eeb5)
+
 
