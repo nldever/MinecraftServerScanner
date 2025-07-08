@@ -53,5 +53,5 @@ Minecraft Server Scanner — это хорошее и удобное прило�
    ![image](https://github.com/user-attachments/assets/687755ec-36c6-4bc7-b0bb-30f22c01eeb5)
 
 
-Доступные релизи можно найти тут: https://github.com/nldever/MinecraftServerScanner/releases
+Доступные релизы можно найти тут: https://github.com/nldever/MinecraftServerScanner/releases
 
