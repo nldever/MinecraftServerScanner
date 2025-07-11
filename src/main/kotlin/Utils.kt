@@ -88,6 +88,57 @@ fun detectServerType(versionName: String): String {
     }
 }
 
+
+fun getTagsFromMotd(motd: String): List<String> {
+    val lowerMotd = motd.lowercase()
+
+    val tags = mutableSetOf<String>()
+
+    val keywordMap = mapOf(
+        "parkour" to "Паркур",
+        "bedwars" to "Мини-игра",
+        "skywars" to "Мини-игра",
+        "eggwars" to "Мини-игра",
+        "survival" to "Выживание",
+        "anarchy" to "Анархия",
+        "vanilla" to "Vanilla",
+        "creative" to "Креатив",
+        "rpg" to "RPG",
+        "quest" to "Квест",
+        "minigame" to "Мини-игра",
+        "wars" to "Мини-игра",
+        "faction" to "Фракции",
+        "hardcore" to "Хардкор",
+        "adventure" to "Приключения",
+        "pvp" to "PvP",
+        "pve" to "PvE",
+        "find the" to "Прохождение",
+        "dropper" to "Дроппер",
+        "roleplay" to "Ролевая",
+        "lifesteal" to "Lifesteal",
+        "prison" to "Prison",
+        "skyblock" to "SkyBlock",
+        "blockhunt" to "Мини-игра",
+        "parkour spiral" to "Паркур",
+        "builder" to "Строительство"
+    )
+
+    for ((keyword, tag) in keywordMap) {
+        if (lowerMotd.contains(keyword)) {
+            tags += tag
+        }
+    }
+
+    return tags.toList()
+}
+
+fun stripFormatting(text: String, maxWords: Int = 3): String {
+    return text.replace(Regex("§."), "")
+        .split(Regex("\\s+"))         // разбиваем по пробелам
+        .take(maxWords)               // берём первые maxWords слов
+        .joinToString(" ")            // собираем обратно
+        .trim()
+}
 suspend fun scanServers(
     ips: List<IpPortsRange>,
     timeout: Int,

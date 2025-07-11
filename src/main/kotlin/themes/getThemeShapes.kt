@@ -118,4 +118,53 @@ fun getThemeShapes(theme: AppTheme) = when (theme) {
         medium = RoundedCornerShape(18.dp),
         large = RoundedCornerShape(24.dp)
     )
+
+    AppTheme.SUNSET_GLOW -> Shapes(
+        small = RoundedCornerShape(12.dp),
+        medium = RoundedCornerShape(20.dp),
+        large = RoundedCornerShape(24.dp)
+    )
+
+    AppTheme.MORNING_FRESH -> Shapes(
+        small = RoundedCornerShape(16.dp),
+        medium = RoundedCornerShape(24.dp),
+        large = RoundedCornerShape(28.dp)
+    )
+
+    AppTheme.COZY_CABIN -> Shapes(
+        small = RoundedCornerShape(8.dp),
+        medium = RoundedCornerShape(12.dp),
+        large = RoundedCornerShape(16.dp)
+    )
+
+    AppTheme.LUSH_MEADOW -> Shapes(
+        small = RoundedCornerShape(14.dp),
+        medium = RoundedCornerShape(22.dp),
+        large = RoundedCornerShape(26.dp)
+    )
+
+
+    AppTheme.ELECTRIC_LIME -> Shapes(
+        small = RoundedCornerShape(20.dp),
+        medium = RoundedCornerShape(28.dp),
+        large = RoundedCornerShape(32.dp)
+    )
+
+    AppTheme.DEEP_TWILIGHT -> Shapes(
+        small = RoundedCornerShape(6.dp),
+        medium = RoundedCornerShape(12.dp),
+        large = RoundedCornerShape(16.dp)
+    )
+
+    AppTheme.CANDY_PINK -> Shapes(
+        small = RoundedCornerShape(18.dp),
+        medium = RoundedCornerShape(24.dp),
+        large = RoundedCornerShape(30.dp)
+    )
+
+    AppTheme.COOL_AQUA -> Shapes(
+        small = RoundedCornerShape(14.dp),
+        medium = RoundedCornerShape(20.dp),
+        large = RoundedCornerShape(24.dp)
+    )
 }

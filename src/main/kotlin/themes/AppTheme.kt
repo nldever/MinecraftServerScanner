@@ -14,7 +14,6 @@ enum class AppTheme(val backgroundImagePath: String?) {
     RAINBOW(null),
     VINTAGE(null),
 
-    // Новые темы
     PIXEL_ART(null),
     FUTURISTIC_HUD(null),
     MIDNIGHT_BLUE(null),
@@ -24,5 +23,13 @@ enum class AppTheme(val backgroundImagePath: String?) {
     TERMINAL_GREEN(null),
     SOLARIZED_LIGHT(null),
     SOLARIZED_DARK(null),
-    STARRY_NIGHT("stars_bg.png")
+    STARRY_NIGHT("stars_bg.png"),
+    SUNSET_GLOW(null),
+    MORNING_FRESH(null),
+    COZY_CABIN(null),
+    LUSH_MEADOW(null),
+    ELECTRIC_LIME(null),
+    DEEP_TWILIGHT(null),
+    CANDY_PINK(null),
+    COOL_AQUA(null)
 }

@@ -3,10 +3,13 @@ package models.view
 import DataPreferences
 import LogConsole
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import managers.FavoriteStorage
 import managers.ProfileStorage
 import managers.ProfileStorage.saveProfiles
 import models.IpPortsRange
@@ -44,6 +47,38 @@ class MainViewModel(val themeState: ThemeState) {
     var currentTimeout by mutableStateOf(profiles.getOrNull(currentProfileIndex)?.timeout ?: timeoutMs)
     var currentParallelLimit by mutableStateOf(profiles.getOrNull(currentProfileIndex)?.parallels ?: parallelLimit)
     var currentTheme by mutableStateOf(profiles.getOrNull(currentProfileIndex)?.theme ?: AppTheme.MINECRAFT)
+
+
+    private val _favorites = mutableStateListOf<String>()
+    val favorites: List<String> = _favorites
+    fun addFavorite(desc: String) {
+        if (desc.isNotBlank() && !_favorites.contains(desc)) {
+            _favorites.add(desc)
+            saveFavoritesAsync()
+        }
+    }
+
+    fun removeFavorite(desc: String) {
+        if (_favorites.remove(desc)) {
+            saveFavoritesAsync()
+        }
+    }
+
+    fun isFavorite(desc: String): Boolean {
+        return _favorites.contains(desc)
+    }
+
+    private fun loadFavorites() {
+        val loaded = FavoriteStorage.loadFavorites()
+        _favorites.clear()
+        _favorites.addAll(loaded)
+    }
+
+    private fun saveFavoritesAsync() {
+        CoroutineScope(Dispatchers.IO).launch {
+            FavoriteStorage.saveFavorites(_favorites)
+        }
+    }
 
     private fun loadProfiles(): List<Profile> {
         val loaded = ProfileStorage.loadProfiles()

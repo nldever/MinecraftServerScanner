@@ -3,13 +3,18 @@ package components
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalClipboardManager
@@ -20,9 +25,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import decodeFavicon
 import extractAndJoinBeforeBy
+import getTagsFromMotd
+import managers.FavoriteStorage
 import managers.ToastManager
 import models.view.MainViewModel
 import parseMinecraftColoredJson
+import stripFormatting
 
 @Composable
 fun ServerList(vm: MainViewModel) {
@@ -58,8 +66,7 @@ fun ServerList(vm: MainViewModel) {
                     )
                     .clickable {
                         vm.isMapDialogVisible = true
-                        vm.mapLink =
-                            extractAndJoinBeforeBy(parseMinecraftColoredJson(server.motd, isDarkTheme)).lowercase()
+                        vm.mapLink = extractAndJoinBeforeBy(parseMinecraftColoredJson(server.motd, isDarkTheme)).lowercase()
                     }
                     .padding(8.dp)
             ) {
@@ -69,7 +76,10 @@ fun ServerList(vm: MainViewModel) {
                             clipboardManager.setText(AnnotatedString("${server.ip}:${server.port}"))
                             toastManager.showToast("IP скопирован")
                         }
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.Top
                 ) {
+                    // 0. Иконка
                     Column(modifier = Modifier.padding(12.dp)) {
                         decodeFavicon(server.favicon)?.let { bitmap ->
                             Image(
@@ -86,10 +96,11 @@ fun ServerList(vm: MainViewModel) {
                         )
                     }
 
+                    // 1. Инфа о сервере
                     Column(
                         modifier = Modifier
+                            .weight(2f)
                             .padding(10.dp)
-                            .weight(1f)
                     ) {
                         Text(
                             text = "IP: ${server.ip}:${server.port}",
@@ -141,6 +152,58 @@ fun ServerList(vm: MainViewModel) {
                                     lineHeight = 16.sp
                                 )
                             }
+                        }
+                    }
+
+                    // 2. Чипы
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(10.dp),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        val tags = getTagsFromMotd(server.motd).toMutableList()
+                        if (server.ping < 60) tags.add("Низкий пинг")
+
+                        tags.forEach { tag ->
+                            val isLowPing = tag == "Низкий пинг"
+                            TagChip(
+                                text = tag,
+                                color = if (isLowPing) MaterialTheme.colors.secondary.copy(alpha = 0.3f)
+                                else MaterialTheme.colors.primary.copy(alpha = 0.5f),
+                                contentColor = if (isLowPing) MaterialTheme.colors.onSecondary
+                                else MaterialTheme.colors.onPrimary,
+                            )
+                        }
+                    }
+
+                    // 3. Кнопки
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(10.dp),
+                        horizontalAlignment = Alignment.End
+                    ) {
+                        val desc = stripFormatting(server.motd.substringBefore("by")).trim()
+                        IconButton(
+                            onClick = {
+                                if (vm.isFavorite(desc)) {
+                                    vm.removeFavorite(desc)
+                                    toastManager.showToast("Удалено из избранных")
+                                } else {
+                                    vm.addFavorite(desc)
+                                    toastManager.showToast("Добавлено в избранные")
+                                }
+                            },
+                            modifier = Modifier.padding(vertical = 4.dp)
+                        ) {
+                            val isFav = vm.isFavorite(desc)
+                            Icon(
+                                imageVector = if (isFav) Icons.Filled.Favorite else Icons.Outlined.Favorite,
+                                contentDescription = if (isFav) "В избранных" else "Не в избранных",
+                                tint = if (isFav) MaterialTheme.colors.onPrimary else MaterialTheme.colors.onSurface.copy(alpha = 0.3f)
+                            )
                         }
                     }
                 }

@@ -262,4 +262,101 @@ fun getThemeColors(theme: AppTheme) = when (theme) {
         onBackground = Color.White,
         onSurface = Color.White
     )
+
+    AppTheme.SUNSET_GLOW -> lightColors(
+        primary = Color(0xFFFF6E40),          // Яркий коралл
+        primaryVariant = Color(0xFFDD2C00),   // Глубокий красный
+        secondary = Color(0xFFFFA726),        // Оранжевый
+        background = Color(0xFFFFF3E0),       // Мягкий светло-бежевый
+        surface = Color(0xFFFFF3E0),
+        onPrimary = Color.White,
+        onSecondary = Color.Black,
+        onBackground = Color.Black,
+        onSurface = Color.Black
+    )
+
+    AppTheme.MORNING_FRESH -> lightColors(
+        primary = Color(0xFF81C784),          // Мягкий зелёный
+        primaryVariant = Color(0xFF4CAF50),   // Классический зелёный
+        secondary = Color(0xFFA5D6A7),        // Пастельный зелёный
+        background = Color(0xFFE8F5E9),       // Светло-зелёный фон
+        surface = Color(0xFFFFFFFF),
+        onPrimary = Color.Black,
+        onSecondary = Color.Black,
+        onBackground = Color.Black,
+        onSurface = Color.Black
+    )
+
+    AppTheme.COZY_CABIN -> darkColors(
+        primary = Color(0xFF6D4C41),          // Тёмно-коричневый
+        primaryVariant = Color(0xFF5D4037),
+        secondary = Color(0xFFFFCC80),        // Тёплый бежевый
+        background = Color(0xFF3E2723),       // Тёмно-коричневый фон
+        surface = Color(0xFF4E342E),
+        onPrimary = Color.White,
+        onSecondary = Color.Black,
+        onBackground = Color.White,
+        onSurface = Color.White
+    )
+
+    AppTheme.LUSH_MEADOW -> lightColors(
+        primary = Color(0xFF388E3C),          // Насыщенный зелёный
+        primaryVariant = Color(0xFF2E7D32),
+        secondary = Color(0xFFC8E6C9),        // Светло-зелёный
+        background = Color(0xFFE8F5E9),       // Светлый зелёный фон
+        surface = Color(0xFFFFFFFF),
+        onPrimary = Color.White,
+        onSecondary = Color.Black,
+        onBackground = Color.Black,
+        onSurface = Color.Black
+    )
+
+    AppTheme.ELECTRIC_LIME -> lightColors(
+        primary = Color(0xFFCCFF00),          // Яркий лайм
+        primaryVariant = Color(0xFF99CC00),   // Тёмный лайм
+        secondary = Color(0xFF336600),        // Тёмно-зелёный акцент
+        background = Color(0xFFFFFFFF),       // Белый фон для контраста
+        surface = Color(0xFFE6FF99),          // Светло-жёлто-зелёный
+        onPrimary = Color.Black,
+        onSecondary = Color.White,
+        onBackground = Color.Black,
+        onSurface = Color.Black
+    )
+
+    AppTheme.DEEP_TWILIGHT -> darkColors(
+        primary = Color(0xFF4B0082),          // Индиго (тёмно-фиолетовый)
+        primaryVariant = Color(0xFF2E0854),   // Очень тёмный индиго
+        secondary = Color(0xFFFF6FFF),        // Яркий розово-лиловый
+        background = Color(0xFF1A001A),       // Почти чёрный с фиолетовым оттенком
+        surface = Color(0xFF330033),
+        onPrimary = Color.White,
+        onSecondary = Color.White,
+        onBackground = Color.White,
+        onSurface = Color.White
+    )
+
+    AppTheme.CANDY_PINK -> lightColors(
+        primary = Color(0xFFFF69B4),          // Яркий розовый
+        primaryVariant = Color(0xFFC71585),   // Тёмный розовый
+        secondary = Color(0xFFFFB6C1),        // Светло-розовый
+        background = Color(0xFFFFF0F5),       // Очень светлый розовый
+        surface = Color(0xFFFFE4E1),
+        onPrimary = Color.White,
+        onSecondary = Color.Black,
+        onBackground = Color.Black,
+        onSurface = Color.Black
+    )
+
+    AppTheme.COOL_AQUA -> lightColors(
+        primary = Color(0xFF00CED1),          // Тёмно-аквамарин
+        primaryVariant = Color(0xFF008B8B),   // Тёмный аквамарин
+        secondary = Color(0xFF40E0D0),        // Бирюзовый
+        background = Color(0xFFE0FFFF),       // Светлый голубой
+        surface = Color(0xFFB2DFDB),
+        onPrimary = Color.White,
+        onSecondary = Color.Black,
+        onBackground = Color.Black,
+        onSurface = Color.Black
+    )
+
 }

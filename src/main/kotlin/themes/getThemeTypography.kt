@@ -246,4 +246,102 @@ fun getThemeTypography(theme: AppTheme) = when (theme) {
             fontSize = 16.sp
         )
     )
+
+    AppTheme.SUNSET_GLOW -> Typography(
+        h6 = TextStyle(
+            fontFamily = FontFamily.SansSerif,
+            fontWeight = FontWeight.Bold,
+            fontSize = 22.sp
+        ),
+        body1 = TextStyle(
+            fontFamily = FontFamily.SansSerif,
+            fontWeight = FontWeight.Medium,
+            fontSize = 16.sp
+        )
+    )
+
+    AppTheme.MORNING_FRESH -> Typography(
+        h6 = TextStyle(
+            fontFamily = FontFamily.Serif,
+            fontWeight = FontWeight.SemiBold,
+            fontSize = 20.sp
+        ),
+        body1 = TextStyle(
+            fontFamily = FontFamily.Serif,
+            fontSize = 16.sp
+        )
+    )
+
+    AppTheme.COZY_CABIN -> Typography(
+        h6 = TextStyle(
+            fontFamily = FontFamily.Monospace,
+            fontWeight = FontWeight.Medium,
+            fontSize = 20.sp
+        ),
+        body1 = TextStyle(
+            fontFamily = FontFamily.Monospace,
+            fontSize = 14.sp
+        )
+    )
+
+    AppTheme.LUSH_MEADOW -> Typography(
+        h6 = TextStyle(
+            fontFamily = FontFamily.Cursive,
+            fontWeight = FontWeight.Bold,
+            fontSize = 21.sp
+        ),
+        body1 = TextStyle(
+            fontFamily = FontFamily.Cursive,
+            fontSize = 16.sp
+        )
+    )
+
+    AppTheme.ELECTRIC_LIME -> Typography(
+        h6 = TextStyle(
+            fontFamily = FontFamily.SansSerif,
+            fontWeight = FontWeight.ExtraBold,
+            fontSize = 22.sp
+        ),
+        body1 = TextStyle(
+            fontFamily = FontFamily.SansSerif,
+            fontWeight = FontWeight.Bold,
+            fontSize = 16.sp
+        )
+    )
+
+    AppTheme.DEEP_TWILIGHT -> Typography(
+        h6 = TextStyle(
+            fontFamily = FontFamily.Serif,
+            fontWeight = FontWeight.SemiBold,
+            fontSize = 20.sp
+        ),
+        body1 = TextStyle(
+            fontFamily = FontFamily.Serif,
+            fontSize = 16.sp
+        )
+    )
+
+    AppTheme.CANDY_PINK -> Typography(
+        h6 = TextStyle(
+            fontFamily = FontFamily.Cursive,
+            fontWeight = FontWeight.Bold,
+            fontSize = 21.sp
+        ),
+        body1 = TextStyle(
+            fontFamily = FontFamily.Cursive,
+            fontSize = 16.sp
+        )
+    )
+
+    AppTheme.COOL_AQUA -> Typography(
+        h6 = TextStyle(
+            fontFamily = FontFamily.SansSerif,
+            fontWeight = FontWeight.Medium,
+            fontSize = 20.sp
+        ),
+        body1 = TextStyle(
+            fontFamily = FontFamily.SansSerif,
+            fontSize = 15.sp
+        )
+    )
 }
