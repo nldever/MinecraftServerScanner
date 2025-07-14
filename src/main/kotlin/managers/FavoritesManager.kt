@@ -1,13 +1,13 @@
 package managers
 
-import MainViewModel
-import androidx.compose.material.Colors
+import models.view.MainViewModel
 import androidx.compose.runtime.mutableStateListOf
+import cleanMotdText
+import extractAndJoinBeforeBy
 import kotlinx.coroutines.*
-import kotlinx.serialization.json.Json
 import models.ServerInfo
 import scaneServer
-import toHex
+import stripFormatting
 
 class FavoritesManager(private val vm: MainViewModel) {
     private var monitoringJob: Job? = null
@@ -59,6 +59,9 @@ class FavoritesManager(private val vm: MainViewModel) {
     }
 
     fun startFavoritesMonitoring() {
+
+        LogConsole.debug("Запущен мониторинг серверов")
+
         if (monitoringJob != null) return // Уже запущено
 
         monitoringJob = CoroutineScope(Dispatchers.IO).launch {
@@ -72,19 +75,68 @@ class FavoritesManager(private val vm: MainViewModel) {
     }
 
     private suspend fun monitorFavoriteServer(server: ServerInfo) {
-        try {
-            scaneServer(
-                ip = server.ip,
-                port = server.port,
-                timeout = vm.currentTimeout
-            )
-        } catch (_: Exception) {
-            NotifierManager.show(
-                title = "Сервер выключен",
-                message = "⚠️ ${server.ip}:${server.port} больше не отвечает"
-            )
-            removeFavorite(server)
-        }
-    }
+        val desc = cleanMotdText(server.motd.substringBefore("by")).trim()
 
+        val result = scaneServer(
+            ip = server.ip,
+            port = server.port,
+            timeout = vm.currentTimeout
+        )
+
+        val index = _favorites.indexOfFirst {
+            it.ip == server.ip && it.port == server.port
+        }
+
+        if (index == -1) return
+
+        if (result == null) {
+            LogConsole.debug("Server ${server.ip}:${server.port} не отвечает, ставим оффлайн")
+            val offlineServer = server.copy(isOnline = false)
+            _favorites[index] = offlineServer
+            saveFavoritesAsync()  // <-- вот сюда!
+
+            if (server.isOnline) {
+                NotifierManager.show(
+                    title = "Сервер выключен",
+                    message = "⚠️ ${server.ip}:${server.port} (${desc}) больше не отвечает"
+                )
+            }
+            saveFavoritesAsync()
+        } else {
+            val newMotd = result.motd
+            val motdChanged = newMotd != server.motd
+            val wasOffline = !server.isOnline
+
+
+            if(motdChanged) {
+
+                ServerMonitoringManager.addToHistory(result)
+
+            } else {
+                val updatedServer = server.copy(
+                    isOnline = true,
+                    onlinePlayers = result.onlinePlayers,
+                    players = result.players,
+                    motd = newMotd,
+                    favicon = result.favicon
+                )
+
+                _favorites[index] = updatedServer
+            }
+
+
+            if (wasOffline) {
+                NotifierManager.show(
+                    title = "Сервер включён",
+                    message = "✅ ${server.ip}:${server.port} (${desc}) снова доступен!" +
+                            if (motdChanged) "\nНовая карта: ${cleanMotdText(newMotd.substringBefore("by")).trim()}" else ""
+                )
+            }
+
+
+            saveFavoritesAsync()
+        }
+
+        saveFavoritesAsync()
+    }
 }

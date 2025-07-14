@@ -1,6 +1,6 @@
 package components
 
-import MainViewModel
+import models.view.MainViewModel
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.Animatable
@@ -36,16 +36,16 @@ import decodeFavicon
 import extractAndJoinBeforeBy
 import getTagsFromMotd
 import kotlinx.coroutines.delay
+import models.ServerInfo
 import parseMinecraftColoredJson
-import stripFormatting
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun ServerList(vm: MainViewModel, toaster: ToasterState) {
+fun ServerList(vm: MainViewModel, toaster: ToasterState, serversToShow: List<ServerInfo>) {
     val isDarkTheme = !MaterialTheme.colors.isLight
     val clipboardManager = LocalClipboardManager.current
 
-    val filteredServers = vm.servers.filter { server ->
+    val filteredServers = serversToShow.filter { server ->
         val text = vm.filterText.trim().lowercase()
 
         val matchesGeneral = text.isBlank() || listOf(
@@ -91,12 +91,6 @@ fun ServerList(vm: MainViewModel, toaster: ToasterState) {
                             )
                             .clickable {
                                 vm.isMapDialogVisible = true
-                                vm.mapLink = extractAndJoinBeforeBy(
-                                    parseMinecraftColoredJson(
-                                        server.motd,
-                                        isDarkTheme
-                                    )
-                                ).lowercase()
                             }
                             .padding(8.dp)
                     ) {
@@ -137,12 +131,17 @@ fun ServerList(vm: MainViewModel, toaster: ToasterState) {
                                     .weight(2f)
                                     .padding(10.dp)
                             ) {
-                                Text(
-                                    text = "IP: ${server.ip}:${server.port}",
-                                    style = MaterialTheme.typography.subtitle1,
-                                    color = MaterialTheme.colors.onSurface,
-                                    fontWeight = FontWeight.Bold
-                                )
+                                Row {
+                                    Text(
+                                        text = "IP: ${server.ip}:${server.port}",
+                                        style = MaterialTheme.typography.subtitle1,
+                                        color = MaterialTheme.colors.onSurface,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                    Spacer(Modifier.padding(8.dp))
+                                    StatusLabel(server.isOnline)
+                                }
+
 
                                 Text(
                                     text = "Версия: ${server.version}, ${server.serverType}",
@@ -220,7 +219,6 @@ fun ServerList(vm: MainViewModel, toaster: ToasterState) {
                                     .padding(10.dp),
                                 horizontalAlignment = Alignment.End
                             ) {
-                                val desc = stripFormatting(server.motd.substringBefore("by")).trim()
                                 val isFav = vm.isFavorite(server)
 
                                 val scale = remember { Animatable(1f) }
@@ -242,8 +240,6 @@ fun ServerList(vm: MainViewModel, toaster: ToasterState) {
                                         )
                                     }
                                 }
-
-                                val colors = MaterialTheme.colors
 
                                 IconButton(
                                     onClick = {

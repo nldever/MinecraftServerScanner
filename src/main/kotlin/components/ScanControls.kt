@@ -1,7 +1,7 @@
 package components
 
 import LogConsole
-import MainViewModel
+import models.view.MainViewModel
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable

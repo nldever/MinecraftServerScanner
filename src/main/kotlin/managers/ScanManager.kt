@@ -1,6 +1,6 @@
 package managers
 
-import MainViewModel
+import models.view.MainViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import scanServers

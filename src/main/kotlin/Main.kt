@@ -24,6 +24,8 @@ import managers.FavoritesManager
 import managers.ProfileStorage
 import models.IpPortsRange
 import models.Profile
+import models.view.MainViewModel
+import screens.MainScreen
 
 import themes.*
 
@@ -37,10 +39,10 @@ fun App(themeState: ThemeState) {
 
     var showContent by remember { mutableStateOf(false) }
 
-
+    favoritesManager.startFavoritesMonitoring()
 
     LaunchedEffect(Unit) {
-        favoritesManager.startFavoritesMonitoring()
+
         showContent = true
 
     }
@@ -85,13 +87,7 @@ fun App(themeState: ThemeState) {
                     enter = fadeIn(animationSpec = tween(500)) + slideInVertically(initialOffsetY = { it / 2 }),
                 ) {
                     Column(Modifier.padding(16.dp)) {
-                        ScanControls(vm, scope)
-                        Spacer(modifier = Modifier.height(12.dp))
-//                        ServerSectionTabs(vm)
-//                        Spacer(modifier = Modifier.height(12.dp))
-                        FilterRow(vm)
-                        Spacer(modifier = Modifier.height(12.dp))
-                        ServerList(vm, toaster)
+                        MainScreen(themeState, toaster, vm)
                     }
                 }
 

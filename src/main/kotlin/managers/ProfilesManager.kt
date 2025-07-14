@@ -3,7 +3,7 @@ package managers
 
 import DataPreferences
 import LogConsole
-import MainViewModel
+import models.view.MainViewModel
 import models.IpPortsRange
 import models.Profile
 import themes.AppTheme

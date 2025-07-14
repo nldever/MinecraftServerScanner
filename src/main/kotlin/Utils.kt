@@ -12,6 +12,9 @@ import kotlinx.serialization.json.Json
 import models.IpInfo
 import models.IpPortsRange
 import models.MotdJson
+import models.NetworkStats
+import models.NetworkStats.getReceived
+import models.NetworkStats.getSent
 import models.ServerInfo
 import net.lenni0451.mcping.MCPing
 import org.json.JSONArray
@@ -28,10 +31,24 @@ val ipInfoCache = mutableMapOf<String, IpInfo?>()
 
 suspend fun pingMinecraftServer(ip: String, port: Int, timeoutMs: Int = 500): ServerInfo {
     return try {
+
         val response = MCPing.pingModern()
             .address(InetSocketAddress(ip, port))
             .timeout(timeoutMs, timeoutMs)
             .getSync()
+
+        val bytesReceived =
+            (response.favicon?.length ?: 0) +
+                    (response.version?.name?.length ?: 0) +
+                    (response.description?.length ?: 0) +
+                    (response.players?.sample?.sumOf { it.name.length } ?: 0) +
+                    100L // немного на служебные данные и заголовки
+
+        NetworkStats.addSent(60)
+        NetworkStats.addReceived(bytesReceived)
+
+        LogConsole.info("Network sent: ${getSent() /  1048576} мб (${getSent()} байт)")
+        LogConsole.info("Network received: ${getReceived() / 1048576}  мб (${getReceived()} байт)")
 
         // Получение и обработка иконки
         val faviconBase64 = response.favicon.orEmpty()
@@ -356,8 +373,8 @@ fun getFlagEmojiFromCountryCode(code: String): String {
     return String(Character.toChars(firstChar)) + String(Character.toChars(secondChar))
 }
 
-fun extractAndJoinBeforeBy(motd: AnnotatedString): String {
-    val text = motd.text
+fun extractAndJoinBeforeBy(motd: String): String {
+    val text = motd
     val index = text.indexOf("by")
     if (index == -1) return "" 
     val substring = text.substring(0, index)
