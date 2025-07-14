@@ -1,5 +1,6 @@
 package components
 
+import MainViewModel
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -18,7 +19,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import models.Profile
-import models.view.MainViewModel
 import parseIpPorts
 import themes.AppTheme
 import themes.ThemeState

@@ -1,5 +1,6 @@
 package components
 
+import MainViewModel
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.Animatable
@@ -35,7 +36,6 @@ import decodeFavicon
 import extractAndJoinBeforeBy
 import getTagsFromMotd
 import kotlinx.coroutines.delay
-import models.view.MainViewModel
 import parseMinecraftColoredJson
 import stripFormatting
 
@@ -221,7 +221,7 @@ fun ServerList(vm: MainViewModel, toaster: ToasterState) {
                                 horizontalAlignment = Alignment.End
                             ) {
                                 val desc = stripFormatting(server.motd.substringBefore("by")).trim()
-                                val isFav = vm.isFavorite(desc)
+                                val isFav = vm.isFavorite(server)
 
                                 val scale = remember { Animatable(1f) }
 
@@ -256,7 +256,7 @@ fun ServerList(vm: MainViewModel, toaster: ToasterState) {
                                                 )
                                             )
                                         } else {
-                                            vm.addFavorite(server, colors)
+                                            vm.addFavorite(server)
                                             toaster.show(
                                                 Toast(
                                                     message = "Сервер добавлен в избранные",

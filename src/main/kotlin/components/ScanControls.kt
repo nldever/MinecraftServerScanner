@@ -1,6 +1,7 @@
 package components
 
 import LogConsole
+import MainViewModel
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
@@ -14,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.CoroutineScope
-import models.view.MainViewModel
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable

@@ -20,10 +20,10 @@ import androidx.compose.ui.window.application
 import com.dokar.sonner.Toaster
 import com.dokar.sonner.rememberToasterState
 import components.*
+import managers.FavoritesManager
 import managers.ProfileStorage
 import models.IpPortsRange
 import models.Profile
-import models.view.MainViewModel
 
 import themes.*
 
@@ -33,11 +33,16 @@ fun App(themeState: ThemeState) {
     val vm = remember { MainViewModel(themeState) }
     val scope = rememberCoroutineScope()
     val toaster = rememberToasterState()
+    val favoritesManager = FavoritesManager(vm)
 
     var showContent by remember { mutableStateOf(false) }
 
+
+
     LaunchedEffect(Unit) {
+        favoritesManager.startFavoritesMonitoring()
         showContent = true
+
     }
 
     MaterialTheme(
