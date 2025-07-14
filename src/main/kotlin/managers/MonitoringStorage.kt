@@ -2,11 +2,10 @@ package managers
 
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
-import models.Profile
 import models.ServerInfo
 import java.io.File
 
-object FavoriteStorage {
+object MonitoringStorage {
     val file: File
         get() {
             val appDataDir = when {
@@ -18,15 +17,15 @@ object FavoriteStorage {
             }
             val folder = File(appDataDir, "MinecraftServerScanner")
             folder.mkdirs()
-            return File(folder, "favorites.json")
+            return File(folder, "Monitorings.json")
         }
 
-    fun saveFavorites(favorites: List<ServerInfo>) {
-        val json = Json.encodeToString(ListSerializer(ServerInfo.serializer()), favorites)
+    fun saveMonitoring(Monitorings: List<ServerInfo>) {
+        val json = Json.encodeToString(ListSerializer(ServerInfo.serializer()), Monitorings)
         file.writeText(json)
     }
 
-    fun loadFavorites(): List<ServerInfo> {
+    fun loadMonitoring(): List<ServerInfo> {
         if (!file.exists()) return emptyList()
         val json = file.readText()
         return Json.decodeFromString(json)

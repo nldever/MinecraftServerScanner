@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.CoroutineScope
-import managers.FavoritesManager
+import managers.MonitoringsManager
 import managers.OfflineStorage
 import managers.ProfilesManager
 import managers.ScanManager
@@ -37,8 +37,8 @@ class MainViewModel(val themeState: ThemeState) {
     var currentParallelLimit by mutableStateOf(parallelLimit)
     var currentTheme by mutableStateOf(AppTheme.MINECRAFT)
 
-    private val favoritesManager = FavoritesManager(this)
-    val favorites get() = favoritesManager.favorites
+    private val monitoringManager = MonitoringsManager(this)
+    val monitorings get() = monitoringManager.monitorings
 
     private val profilesManager = ProfilesManager(this)
     private val offlineStorage = OfflineStorage()
@@ -52,9 +52,9 @@ class MainViewModel(val themeState: ThemeState) {
         }
     }
 
-    fun addFavorite(server: ServerInfo) = favoritesManager.addFavorite(server)
-    fun removeFavorite(server: ServerInfo) = favoritesManager.removeFavorite(server)
-    fun isFavorite(server: ServerInfo) = favoritesManager.isFavorite(server)
+    fun addMonitoring(server: ServerInfo) = monitoringManager.addMonitoring(server)
+    fun removeMonitoring(server: ServerInfo) = monitoringManager.removeMonitoring(server)
+    fun isMonitoring(server: ServerInfo) = monitoringManager.isMonitoring(server)
     fun loadProfile(index: Int) = profilesManager.loadProfile(index)
     fun createNewProfile(name: String) = profilesManager.createNewProfile(name)
     fun renameCurrentProfile(newName: String) = profilesManager.renameCurrentProfile(newName)

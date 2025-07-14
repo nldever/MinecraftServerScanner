@@ -69,9 +69,5 @@ fun ScanControls(vm: MainViewModel, scope: CoroutineScope) {
                 )
             }
         }
-
-        IconButton(onClick = { vm.showSettings = true }) {
-            Icon(Icons.Default.Settings, contentDescription = "Настройки")
-        }
     }
 }

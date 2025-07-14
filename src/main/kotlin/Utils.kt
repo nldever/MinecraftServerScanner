@@ -1,6 +1,16 @@
+import androidx.compose.foundation.Image
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.toComposeImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.withStyle
@@ -9,18 +19,15 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.sync.Semaphore
 import kotlinx.coroutines.sync.withPermit
 import kotlinx.serialization.json.Json
-import models.IpInfo
-import models.IpPortsRange
-import models.MotdJson
-import models.NetworkStats
+import models.*
 import models.NetworkStats.getReceived
 import models.NetworkStats.getSent
-import models.ServerInfo
 import net.lenni0451.mcping.MCPing
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.ByteArrayInputStream
 import java.net.InetSocketAddress
+import java.net.URL
 import java.util.*
 import java.util.concurrent.atomic.AtomicInteger
 import javax.imageio.ImageIO
@@ -47,8 +54,8 @@ suspend fun pingMinecraftServer(ip: String, port: Int, timeoutMs: Int = 500): Se
         NetworkStats.addSent(60)
         NetworkStats.addReceived(bytesReceived)
 
-        LogConsole.info("Network sent: ${getSent() /  1048576} мб (${getSent()} байт)")
-        LogConsole.info("Network received: ${getReceived() / 1048576}  мб (${getReceived()} байт)")
+        LogConsole.info("Network sent: ${(getSent() / 1048576).toDouble()} мб (${getSent()} байт)")
+        LogConsole.info("Network received: ${(getReceived() / 1048576).toDouble()}  мб (${getReceived()} байт)")
 
         // Получение и обработка иконки
         val faviconBase64 = response.favicon.orEmpty()
@@ -108,6 +115,35 @@ fun detectServerType(versionName: String): String {
 }
 
 
+
+val imageCache = mutableMapOf<String, ImageBitmap>()
+
+@Composable
+fun loadImageFromUrlWithCache(url: String): ImageBitmap? {
+    var image by remember(url) { mutableStateOf<ImageBitmap?>(null) }
+
+    LaunchedEffect(url) {
+        if (imageCache.containsKey(url)) {
+            image = imageCache[url]
+        } else {
+            val loadedImage = withContext(Dispatchers.IO) {
+                try {
+                    val stream = URL(url).openStream()
+                    val bufferedImage = ImageIO.read(stream)
+                    bufferedImage?.toComposeImageBitmap()
+                } catch (e: Exception) {
+                    null
+                }
+            }
+            loadedImage?.let {
+                imageCache[url] = it
+                image = it
+            }
+        }
+    }
+
+    return image
+}
 fun getTagsFromMotd(motd: String): List<String> {
     val lowerMotd = motd.lowercase()
 

@@ -5,7 +5,10 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.*
@@ -19,14 +22,12 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import com.dokar.sonner.Toaster
 import com.dokar.sonner.rememberToasterState
-import components.*
-import managers.FavoritesManager
+import managers.MonitoringsManager
 import managers.ProfileStorage
 import models.IpPortsRange
 import models.Profile
 import models.view.MainViewModel
 import screens.MainScreen
-
 import themes.*
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -35,11 +36,11 @@ fun App(themeState: ThemeState) {
     val vm = remember { MainViewModel(themeState) }
     val scope = rememberCoroutineScope()
     val toaster = rememberToasterState()
-    val favoritesManager = FavoritesManager(vm)
+    val MonitoringsManager = MonitoringsManager(vm)
 
     var showContent by remember { mutableStateOf(false) }
 
-    favoritesManager.startFavoritesMonitoring()
+    MonitoringsManager.startMonitoring()
 
     LaunchedEffect(Unit) {
 
@@ -91,17 +92,17 @@ fun App(themeState: ThemeState) {
                     }
                 }
 
-                if (vm.showSettings) {
-                    TimeoutSettingsDialog(
-                        vm = vm,
-                        themeState = themeState,
-                        profiles = vm.profiles,
-                        currentProfileIndex = vm.currentProfileIndex,
-                        onProfileSelected = vm::loadProfile,
-                        onNewProfile = { vm.createNewProfile("new profile ${vm.profiles.size + 1}") },
-                        onDismiss = { vm.showSettings = false }
-                    )
-                }
+//                if (vm.showSettings) {
+//                    TimeoutSettingsDialog(
+//                        vm = vm,
+//                        themeState = themeState,
+//                        profiles = vm.profiles,
+//                        currentProfileIndex = vm.currentProfileIndex,
+//                        onProfileSelected = vm::loadProfile,
+//                        onNewProfile = { vm.createNewProfile("new profile ${vm.profiles.size + 1}") },
+//                        onDismiss = { vm.showSettings = false }
+//                    )
+//                }
             }
         }
     }

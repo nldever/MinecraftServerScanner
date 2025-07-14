@@ -1,6 +1,5 @@
 package components
 
-import models.view.MainViewModel
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.Animatable
@@ -13,8 +12,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
@@ -33,19 +32,19 @@ import com.dokar.sonner.Toast
 import com.dokar.sonner.ToastType
 import com.dokar.sonner.ToasterState
 import decodeFavicon
-import extractAndJoinBeforeBy
 import getTagsFromMotd
 import kotlinx.coroutines.delay
-import models.ServerInfo
+import models.view.MainViewModel
 import parseMinecraftColoredJson
+import stripFormatting
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun ServerList(vm: MainViewModel, toaster: ToasterState, serversToShow: List<ServerInfo>) {
+fun ScannerServerList(vm: MainViewModel, toaster: ToasterState) {
     val isDarkTheme = !MaterialTheme.colors.isLight
     val clipboardManager = LocalClipboardManager.current
 
-    val filteredServers = serversToShow.filter { server ->
+    val filteredServers = vm.servers.filter { server ->
         val text = vm.filterText.trim().lowercase()
 
         val matchesGeneral = text.isBlank() || listOf(
@@ -131,17 +130,12 @@ fun ServerList(vm: MainViewModel, toaster: ToasterState, serversToShow: List<Ser
                                     .weight(2f)
                                     .padding(10.dp)
                             ) {
-                                Row {
-                                    Text(
-                                        text = "IP: ${server.ip}:${server.port}",
-                                        style = MaterialTheme.typography.subtitle1,
-                                        color = MaterialTheme.colors.onSurface,
-                                        fontWeight = FontWeight.Bold
-                                    )
-                                    Spacer(Modifier.padding(8.dp))
-                                    StatusLabel(server.isOnline)
-                                }
-
+                                Text(
+                                    text = "IP: ${server.ip}:${server.port}",
+                                    style = MaterialTheme.typography.subtitle1,
+                                    color = MaterialTheme.colors.onSurface,
+                                    fontWeight = FontWeight.Bold
+                                )
 
                                 Text(
                                     text = "Версия: ${server.version}, ${server.serverType}",
@@ -219,12 +213,13 @@ fun ServerList(vm: MainViewModel, toaster: ToasterState, serversToShow: List<Ser
                                     .padding(10.dp),
                                 horizontalAlignment = Alignment.End
                             ) {
-                                val isFav = vm.isFavorite(server)
+                                stripFormatting(server.motd.substringBefore("by")).trim()
+                                val isMon = vm.isMonitoring(server)
 
                                 val scale = remember { Animatable(1f) }
 
-                                LaunchedEffect(isFav) {
-                                    if (isFav) {
+                                LaunchedEffect(isMon) {
+                                    if (isMon) {
                                         scale.animateTo(
                                             targetValue = 1.3f,
                                             animationSpec = tween(150)
@@ -241,10 +236,12 @@ fun ServerList(vm: MainViewModel, toaster: ToasterState, serversToShow: List<Ser
                                     }
                                 }
 
+                                MaterialTheme.colors
+
                                 IconButton(
                                     onClick = {
-                                        if (isFav) {
-                                            vm.removeFavorite(server)
+                                        if (isMon) {
+                                            vm.removeMonitoring(server)
                                             toaster.show(
                                                 Toast(
                                                     message = "Сервер ${server.ip}:${server.port} удалён из избранных",
@@ -252,7 +249,7 @@ fun ServerList(vm: MainViewModel, toaster: ToasterState, serversToShow: List<Ser
                                                 )
                                             )
                                         } else {
-                                            vm.addFavorite(server)
+                                            vm.addMonitoring(server)
                                             toaster.show(
                                                 Toast(
                                                     message = "Сервер добавлен в избранные",
@@ -269,9 +266,9 @@ fun ServerList(vm: MainViewModel, toaster: ToasterState, serversToShow: List<Ser
                                         }
                                 ) {
                                     Icon(
-                                        imageVector = if (isFav) Icons.Filled.Favorite else Icons.Outlined.Favorite,
-                                        contentDescription = if (isFav) "В избранных" else "Не в избранных",
-                                        tint = if (isFav) MaterialTheme.colors.onPrimary
+                                        imageVector = if (isMon) Icons.Filled.Visibility else Icons.Outlined.VisibilityOff,
+                                        contentDescription = if (isMon) "Start monitoring" else "Off monitoring",
+                                        tint = if (isMon) MaterialTheme.colors.onPrimary
                                         else MaterialTheme.colors.onSurface.copy(alpha = 0.3f)
                                     )
                                 }
