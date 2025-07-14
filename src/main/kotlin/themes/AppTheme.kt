@@ -31,5 +31,15 @@ enum class AppTheme(val backgroundImagePath: String?) {
     ELECTRIC_LIME(null),
     DEEP_TWILIGHT(null),
     CANDY_PINK(null),
-    COOL_AQUA(null)
+    COOL_AQUA(null),
+    COTTON_CANDY(null),
+    SPACE_RETRO(null),
+    BUBBLEGUM_POP(null),
+    CHOCOLATE_LATTE(null),
+    SKYLINE_PURPLE(null),
+    SOFT_MINT(null),
+    GOLDEN_HOUR(null),
+    FROSTED_BLUE(null),
+    LAVENDER_FIELD(null),
+    TOY_BOX(null),
 }

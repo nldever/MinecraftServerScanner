@@ -2,6 +2,7 @@ package components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import models.view.MainViewModel
@@ -12,13 +13,16 @@ fun FilterRow(vm: MainViewModel) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 12.dp),
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
         StyledPlayerTextField(
             playerName = vm.filterText,
             placeholder = "Поиск",
             onPlayerNameChange = { vm.filterText = it },
-            modifier = Modifier.weight(1f).height(50.dp),
+            modifier = Modifier
+                .weight(1f)
+                .height(50.dp),
         )
 
         VersionDropdown(

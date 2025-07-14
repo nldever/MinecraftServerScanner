@@ -359,4 +359,135 @@ fun getThemeColors(theme: AppTheme) = when (theme) {
         onSurface = Color.Black
     )
 
+    AppTheme.COTTON_CANDY -> lightColors(
+        primary = Color(0xFFFFB3DE),
+        primaryVariant = Color(0xFFFFD6E8),
+        secondary = Color(0xFFB3E5FC),
+        background = Color(0xFFFFF5F9),
+        surface = Color(0xFFFFFFFF),
+        onPrimary = Color.Black,
+        onSecondary = Color.Black,
+        onBackground = Color.Black,
+        onSurface = Color.Black
+    )
+
+    AppTheme.COTTON_CANDY -> lightColors(
+        primary = Color(0xFFFFC1CC),
+        primaryVariant = Color(0xFFFFB3DE),
+        secondary = Color(0xFFB2EBF2),
+        background = Color(0xFFFFF0F5),
+        surface = Color(0xFFFFFFFF),
+        onPrimary = Color.Black,
+        onSecondary = Color.Black,
+        onBackground = Color.Black,
+        onSurface = Color.Black
+    )
+
+    AppTheme.SPACE_RETRO -> darkColors(
+        primary = Color(0xFFFF4081),
+        primaryVariant = Color(0xFF651FFF),
+        secondary = Color(0xFF00E5FF),
+        background = Color(0xFF1A1A2E),
+        surface = Color(0xFF121212),
+        onPrimary = Color.White,
+        onSecondary = Color.White,
+        onBackground = Color.White,
+        onSurface = Color.White
+    )
+
+    AppTheme.BUBBLEGUM_POP -> lightColors(
+        primary = Color(0xFFFF6FCF),
+        primaryVariant = Color(0xFFFF9FF3),
+        secondary = Color(0xFFFFD3E0),
+        background = Color(0xFFFFF7FA),
+        surface = Color(0xFFFFFFFF),
+        onPrimary = Color.Black,
+        onSecondary = Color.Black,
+        onBackground = Color.Black,
+        onSurface = Color.Black
+    )
+
+    AppTheme.CHOCOLATE_LATTE -> darkColors(
+        primary = Color(0xFF4E342E),
+        primaryVariant = Color(0xFF3E2723),
+        secondary = Color(0xFFD7CCC8),
+        background = Color(0xFF2B1B17),
+        surface = Color(0xFF3E2C27),
+        onPrimary = Color.White,
+        onSecondary = Color.Black,
+        onBackground = Color.White,
+        onSurface = Color.White
+    )
+
+    AppTheme.SKYLINE_PURPLE -> darkColors(
+        primary = Color(0xFF9C27B0),
+        primaryVariant = Color(0xFF7B1FA2),
+        secondary = Color(0xFFCE93D8),
+        background = Color(0xFF311B92),
+        surface = Color(0xFF4527A0),
+        onPrimary = Color.White,
+        onSecondary = Color.White,
+        onBackground = Color.White,
+        onSurface = Color.White
+    )
+
+    AppTheme.SOFT_MINT -> lightColors(
+        primary = Color(0xFFB2DFDB),
+        primaryVariant = Color(0xFF80CBC4),
+        secondary = Color(0xFFB2EBF2),
+        background = Color(0xFFE0F2F1),
+        surface = Color(0xFFFFFFFF),
+        onPrimary = Color.Black,
+        onSecondary = Color.Black,
+        onBackground = Color.Black,
+        onSurface = Color.Black
+    )
+
+    AppTheme.GOLDEN_HOUR -> lightColors(
+        primary = Color(0xFFFFB300),
+        primaryVariant = Color(0xFFFFA000),
+        secondary = Color(0xFFFFD54F),
+        background = Color(0xFFFFF8E1),
+        surface = Color(0xFFFFF3E0),
+        onPrimary = Color.Black,
+        onSecondary = Color.Black,
+        onBackground = Color.Black,
+        onSurface = Color.Black
+    )
+
+    AppTheme.FROSTED_BLUE -> lightColors(
+        primary = Color(0xFF90CAF9),
+        primaryVariant = Color(0xFF64B5F6),
+        secondary = Color(0xFFB3E5FC),
+        background = Color(0xFFE3F2FD),
+        surface = Color(0xFFFFFFFF),
+        onPrimary = Color.Black,
+        onSecondary = Color.Black,
+        onBackground = Color.Black,
+        onSurface = Color.Black
+    )
+
+    AppTheme.LAVENDER_FIELD -> lightColors(
+        primary = Color(0xFFCE93D8),
+        primaryVariant = Color(0xFFBA68C8),
+        secondary = Color(0xFFE1BEE7),
+        background = Color(0xFFF3E5F5),
+        surface = Color(0xFFFFFFFF),
+        onPrimary = Color.Black,
+        onSecondary = Color.Black,
+        onBackground = Color.Black,
+        onSurface = Color.Black
+    )
+
+    AppTheme.TOY_BOX -> lightColors(
+        primary = Color(0xFFFF5252),
+        primaryVariant = Color(0xFFFF4081),
+        secondary = Color(0xFF40C4FF),
+        background = Color(0xFFFFFDE7),
+        surface = Color(0xFFFFFFFF),
+        onPrimary = Color.Black,
+        onSecondary = Color.Black,
+        onBackground = Color.Black,
+        onSurface = Color.Black
+    )
 }

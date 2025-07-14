@@ -3,12 +3,13 @@ package managers
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.Json
+import models.ServerInfo
+import stripFormatting
 import java.io.File
 
 object FavoriteStorage {
     private val json = Json { prettyPrint = true; ignoreUnknownKeys = true }
 
-    // Файл для избранных рядом с профилями
     val favoritesFile: File
         get() {
             val appDataDir = when {
@@ -37,4 +38,5 @@ object FavoriteStorage {
             emptyList()
         }
     }
+
 }

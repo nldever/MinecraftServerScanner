@@ -1,14 +1,9 @@
 package components
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
+import androidx.compose.material.Shapes
+import androidx.compose.material.Typography
+import androidx.compose.material.darkColors
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -51,22 +46,5 @@ object Theme {
         medium = RoundedCornerShape(4.dp),
         large = RoundedCornerShape(0.dp)
     )
-
-    @Composable
-    fun SelectableTextField(label: String, value: String) {
-        Column(modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp)) {
-            Text(label, style = MaterialTheme.typography.subtitle1)
-            SelectionContainer {
-                Text(
-                    text = value,
-                    style = MaterialTheme.typography.body1,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(Color(0x22FFFFFF))
-                        .padding(6.dp)
-                )
-            }
-        }
-    }
 
 }

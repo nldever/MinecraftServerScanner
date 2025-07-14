@@ -344,4 +344,54 @@ fun getThemeTypography(theme: AppTheme) = when (theme) {
             fontSize = 15.sp
         )
     )
+
+    AppTheme.COTTON_CANDY -> Typography(
+        h6 = TextStyle(fontFamily = FontFamily.Cursive, fontWeight = FontWeight.Bold, fontSize = 20.sp),
+        body1 = TextStyle(fontFamily = FontFamily.Cursive, fontSize = 16.sp)
+    )
+
+    AppTheme.SPACE_RETRO -> Typography(
+        h6 = TextStyle(fontFamily = FontFamily.Monospace, fontWeight = FontWeight.ExtraBold, fontSize = 22.sp),
+        body1 = TextStyle(fontFamily = FontFamily.Monospace, fontSize = 16.sp)
+    )
+
+    AppTheme.BUBBLEGUM_POP -> Typography(
+        h6 = TextStyle(fontFamily = FontFamily.SansSerif, fontWeight = FontWeight.Bold, fontSize = 21.sp),
+        body1 = TextStyle(fontFamily = FontFamily.SansSerif, fontSize = 16.sp)
+    )
+
+    AppTheme.CHOCOLATE_LATTE -> Typography(
+        h6 = TextStyle(fontFamily = FontFamily.Serif, fontWeight = FontWeight.SemiBold, fontSize = 20.sp),
+        body1 = TextStyle(fontFamily = FontFamily.Serif, fontSize = 16.sp)
+    )
+
+    AppTheme.SKYLINE_PURPLE -> Typography(
+        h6 = TextStyle(fontFamily = FontFamily.SansSerif, fontWeight = FontWeight.Bold, fontSize = 22.sp),
+        body1 = TextStyle(fontFamily = FontFamily.SansSerif, fontSize = 16.sp)
+    )
+
+    AppTheme.SOFT_MINT -> Typography(
+        h6 = TextStyle(fontFamily = FontFamily.SansSerif, fontWeight = FontWeight.Medium, fontSize = 20.sp),
+        body1 = TextStyle(fontFamily = FontFamily.SansSerif, fontSize = 15.sp)
+    )
+
+    AppTheme.GOLDEN_HOUR -> Typography(
+        h6 = TextStyle(fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, fontSize = 22.sp),
+        body1 = TextStyle(fontFamily = FontFamily.Serif, fontSize = 16.sp)
+    )
+
+    AppTheme.FROSTED_BLUE -> Typography(
+        h6 = TextStyle(fontFamily = FontFamily.SansSerif, fontWeight = FontWeight.Medium, fontSize = 20.sp),
+        body1 = TextStyle(fontFamily = FontFamily.SansSerif, fontSize = 15.sp)
+    )
+
+    AppTheme.LAVENDER_FIELD -> Typography(
+        h6 = TextStyle(fontFamily = FontFamily.Cursive, fontWeight = FontWeight.Bold, fontSize = 20.sp),
+        body1 = TextStyle(fontFamily = FontFamily.Cursive, fontSize = 16.sp)
+    )
+
+    AppTheme.TOY_BOX -> Typography(
+        h6 = TextStyle(fontFamily = FontFamily.Default, fontWeight = FontWeight.Bold, fontSize = 22.sp),
+        body1 = TextStyle(fontFamily = FontFamily.Default, fontSize = 16.sp)
+    )
 }

@@ -3,8 +3,10 @@ package components
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -31,6 +33,7 @@ fun TimeoutSettingsDialog(
     onNewProfile: () -> Unit,
     onDismiss: () -> Unit
 ) {
+    rememberScrollState()
     var ipText by remember(currentProfileIndex) {
         mutableStateOf(
             vm.targetIps.joinToString("\n") {
@@ -44,9 +47,15 @@ fun TimeoutSettingsDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
+        modifier = Modifier.fillMaxHeight(0.95f), // чтобы не выходило за экран
         title = { Text("Настройки", style = MaterialTheme.typography.h6) },
         text = {
-            Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
 
                 // Профили
                 Text("Профиль", fontWeight = FontWeight.Bold)
@@ -57,7 +66,11 @@ fun TimeoutSettingsDialog(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable { expanded = true }
-                            .border(1.dp, MaterialTheme.colors.onSurface.copy(alpha = 0.5f), RoundedCornerShape(4.dp))
+                            .border(
+                                1.dp,
+                                MaterialTheme.colors.onSurface.copy(alpha = 0.5f),
+                                RoundedCornerShape(4.dp)
+                            )
                             .padding(12.dp)
                     ) {
                         Text(

@@ -8,8 +8,10 @@ import functions.getIpInfo
 import kotlinx.coroutines.*
 import kotlinx.coroutines.sync.Semaphore
 import kotlinx.coroutines.sync.withPermit
+import kotlinx.serialization.json.Json
 import models.IpInfo
 import models.IpPortsRange
+import models.MotdJson
 import models.ServerInfo
 import net.lenni0451.mcping.MCPing
 import org.json.JSONArray
@@ -139,6 +141,45 @@ fun stripFormatting(text: String, maxWords: Int = 3): String {
         .joinToString(" ")            // собираем обратно
         .trim()
 }
+
+suspend fun scaneServer(
+    ip: String,
+    port: Int,
+    timeout: Int
+): ServerInfo? = withContext(Dispatchers.IO) {
+    val result = pingMinecraftServer(ip, port, timeout)
+    return@withContext if (result.isOnline) result else null
+}
+
+fun Color.toHex(): String {
+    return String.format(
+        "#%02X%02X%02X",
+        (red * 255).toInt(),
+        (green * 255).toInt(),
+        (blue * 255).toInt()
+    )
+}
+
+
+fun cleanMotdText(rawMotd: String): String {
+    val noSectionSign = rawMotd.replace(Regex("§."), "")
+
+    return try {
+        val json = Json { ignoreUnknownKeys = true }
+        val motdObj = json.decodeFromString<MotdJson>(noSectionSign)
+        val builder = StringBuilder()
+        fun extractText(m: MotdJson) {
+            m.text?.let { builder.append(it) }
+            m.extra?.forEach { extractText(it) }
+        }
+        extractText(motdObj)
+        val textResult = builder.toString()
+        textResult.ifBlank { noSectionSign }
+    } catch (e: Exception) {
+        noSectionSign
+    }
+}
+
 suspend fun scanServers(
     ips: List<IpPortsRange>,
     timeout: Int,

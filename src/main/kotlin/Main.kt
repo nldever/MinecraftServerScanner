@@ -1,14 +1,14 @@
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
@@ -17,47 +17,79 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import components.FilterRow
-import components.ServerList
-import components.TimeoutSettingsDialog
-import components.ToastsStack
+import com.dokar.sonner.Toaster
+import com.dokar.sonner.rememberToasterState
+import components.*
 import managers.ProfileStorage
-import managers.ToastManager
 import models.IpPortsRange
 import models.Profile
-import models.ScanControls
 import models.view.MainViewModel
-import themes.*
-import java.awt.Desktop
-import java.net.URI
 
+import themes.*
+
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun App(themeState: ThemeState) {
     val vm = remember { MainViewModel(themeState) }
     val scope = rememberCoroutineScope()
-    val toastManager = ToastManager.defaultManager
+    val toaster = rememberToasterState()
+
+    var showContent by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        showContent = true
+    }
+
     MaterialTheme(
         colors = getThemeColors(themeState.currentTheme),
         typography = getThemeTypography(themeState.currentTheme),
         shapes = getThemeShapes(themeState.currentTheme)
     ) {
+
+        Toaster(
+            state = toaster,
+            showCloseButton = true,
+            darkTheme = MaterialTheme.colors.isLight,
+            richColors = true,
+            alignment = Alignment.BottomCenter
+        )
+
+
         Surface(modifier = Modifier.fillMaxSize()) {
             Box {
-
-                themeState.currentTheme.backgroundImagePath?.let { path ->
-                    Image(
-                        painter = painterResource(path),
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.fillMaxSize()
+                AnimatedVisibility(
+                    visible = true,
+                    enter = fadeIn(animationSpec = tween(1000))
+                ) {
+                    themeState.currentTheme.backgroundImagePath?.let { path ->
+                        Image(
+                            painter = painterResource(path),
+                            contentDescription = null,
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier.fillMaxSize()
+                        )
+                    } ?: Box(
+                        Modifier
+                            .fillMaxSize()
+                            .background(MaterialTheme.colors.background)
                     )
-                } ?: Box(Modifier.fillMaxSize().background(MaterialTheme.colors.background))
-
-                Column(Modifier.padding(16.dp)) {
-                    ScanControls(vm, scope)
-                    FilterRow(vm)
-                    ServerList(vm)
                 }
+
+                AnimatedVisibility(
+                    visible = showContent,
+                    enter = fadeIn(animationSpec = tween(500)) + slideInVertically(initialOffsetY = { it / 2 }),
+                ) {
+                    Column(Modifier.padding(16.dp)) {
+                        ScanControls(vm, scope)
+                        Spacer(modifier = Modifier.height(12.dp))
+//                        ServerSectionTabs(vm)
+//                        Spacer(modifier = Modifier.height(12.dp))
+                        FilterRow(vm)
+                        Spacer(modifier = Modifier.height(12.dp))
+                        ServerList(vm, toaster)
+                    }
+                }
+
                 if (vm.showSettings) {
                     TimeoutSettingsDialog(
                         vm = vm,
@@ -67,12 +99,6 @@ fun App(themeState: ThemeState) {
                         onProfileSelected = vm::loadProfile,
                         onNewProfile = { vm.createNewProfile("new profile ${vm.profiles.size + 1}") },
                         onDismiss = { vm.showSettings = false }
-                    )
-                }
-                Box(modifier = Modifier.fillMaxSize()) {
-                    ToastsStack(
-                        toastManager = toastManager,
-                        modifier = Modifier.align(Alignment.BottomEnd)
                     )
                 }
             }
@@ -111,7 +137,7 @@ fun main() = application {
 
     val themeState = remember { ThemeState(initialProfile?.theme ?: AppTheme.MINECRAFT) }
 
-    val icon: Painter = painterResource("MinecraftScannerIcon.png")
+    val icon: Painter = painterResource("icon.png")
 
     Window(
         onCloseRequest = ::exitApplication,
@@ -119,18 +145,5 @@ fun main() = application {
         icon = icon
     ) {
         App(themeState)
-    }
-}
-
-
-fun openInDefaultBrowser(url: String) {
-    if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-        try {
-            Desktop.getDesktop().browse(URI(url))
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    } else {
-        println("Desktop browsing is not supported on this platform.")
     }
 }
